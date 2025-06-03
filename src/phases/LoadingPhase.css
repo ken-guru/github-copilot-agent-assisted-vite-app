@@ -1,0 +1,148 @@
+/* LoadingPhase.css */
+.loading-phase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.loading-phase[data-theme="light"] {
+  --color-background: #ffffff;
+  --color-text: #1f2937;
+  --color-primary: #3b82f6;
+  --color-progress-bg: #e5e7eb;
+}
+
+.loading-phase[data-theme="dark"] {
+  --color-background: #111827;
+  --color-text: #f9fafb;
+  --color-primary: #60a5fa;
+  --color-progress-bg: #374151;
+}
+
+.loading-content {
+  text-align: center;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.loading-header {
+  margin-bottom: 3rem;
+}
+
+.app-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+.app-description {
+  font-size: 1.125rem;
+  margin: 0;
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+.loading-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-progress-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+.loading-text {
+  font-size: 0.875rem;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .loading-content {
+    padding: 1.5rem;
+    max-width: 300px;
+  }
+  
+  .app-title {
+    font-size: 2.5rem;
+  }
+  
+  .app-description {
+    font-size: 1rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill::after {
+    animation: none;
+  }
+  
+  .loading-phase {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .loading-phase[data-theme="light"] {
+    --color-background: #ffffff;
+    --color-text: #000000;
+    --color-primary: #0000ff;
+    --color-progress-bg: #cccccc;
+  }
+  
+  .loading-phase[data-theme="dark"] {
+    --color-background: #000000;
+    --color-text: #ffffff;
+    --color-primary: #00ffff;
+    --color-progress-bg: #666666;
+  }
+}
