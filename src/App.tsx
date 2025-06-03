@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { LoadingPhase } from './phases/LoadingPhase'
+import { SetupPhase } from './phases/SetupPhase'
 import type { SessionState } from './types'
 import './App.css'
 
@@ -16,12 +17,29 @@ function App() {
     }))
   }
 
+  const handleSetupStateChange = (newState: SessionState) => {
+    setSessionState(newState)
+  }
+
+  const handleSetupComplete = (completedState: SessionState) => {
+    setSessionState({
+      ...completedState,
+      phase: 'activity'
+    })
+  }
+
   const renderCurrentPhase = () => {
     switch (sessionState.phase) {
       case 'loading':
         return <LoadingPhase onComplete={handleLoadingComplete} />
       case 'setup':
-        return <div>Setup Phase - Coming Soon!</div>
+        return (
+          <SetupPhase 
+            sessionState={sessionState}
+            onStateChange={handleSetupStateChange}
+            onComplete={handleSetupComplete}
+          />
+        )
       case 'activity':
         return <div>Activity Phase - Coming Soon!</div>
       case 'completed':
