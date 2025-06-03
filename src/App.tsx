@@ -1,34 +1,40 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { LoadingPhase } from './phases/LoadingPhase'
+import type { SessionState } from './types'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [sessionState, setSessionState] = useState<SessionState>({
+    phase: 'loading',
+    activities: []
+  })
+
+  const handleLoadingComplete = () => {
+    setSessionState(prev => ({
+      ...prev,
+      phase: 'setup'
+    }))
+  }
+
+  const renderCurrentPhase = () => {
+    switch (sessionState.phase) {
+      case 'loading':
+        return <LoadingPhase onComplete={handleLoadingComplete} />
+      case 'setup':
+        return <div>Setup Phase - Coming Soon!</div>
+      case 'activity':
+        return <div>Activity Phase - Coming Soon!</div>
+      case 'completed':
+        return <div>Completion Phase - Coming Soon!</div>
+      default:
+        return <div>Unknown Phase</div>
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="mr-timely-app">
+      {renderCurrentPhase()}
+    </div>
   )
 }
 

@@ -5,10 +5,10 @@ import { beforeAll, afterAll } from 'vitest'
 // These warnings are expected when testing components with timers
 const originalError = console.error
 beforeAll(() => {
-  console.error = (...args: any[]) => {
+  console.error = (...args: unknown[]) => {
     if (
-      args[0]?.includes?.('An update to LoadingPhase inside a test was not wrapped in act') ||
-      args[0]?.includes?.('Warning: An update to')
+      (typeof args[0] === 'string' && args[0].includes('An update to LoadingPhase inside a test was not wrapped in act')) ||
+      (typeof args[0] === 'string' && args[0].includes('Warning: An update to'))
     ) {
       return
     }
