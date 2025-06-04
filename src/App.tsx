@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { LoadingPhase } from './phases/LoadingPhase'
 import { SetupPhase } from './phases/SetupPhase'
+import { ActivityPhase } from './phases/ActivityPhase'
 import type { SessionState } from './types'
 import './App.css'
 
@@ -28,6 +29,17 @@ function App() {
     })
   }
 
+  const handleActivityStateChange = (newState: SessionState) => {
+    setSessionState(newState)
+  }
+
+  const handleActivityComplete = (completedState: SessionState) => {
+    setSessionState({
+      ...completedState,
+      phase: 'completed'
+    })
+  }
+
   const renderCurrentPhase = () => {
     switch (sessionState.phase) {
       case 'loading':
@@ -41,7 +53,13 @@ function App() {
           />
         )
       case 'activity':
-        return <div>Activity Phase - Coming Soon!</div>
+        return (
+          <ActivityPhase
+            sessionState={sessionState}
+            onStateChange={handleActivityStateChange}
+            onComplete={handleActivityComplete}
+          />
+        )
       case 'completed':
         return <div>Completion Phase - Coming Soon!</div>
       default:
