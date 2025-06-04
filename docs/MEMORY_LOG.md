@@ -10,6 +10,7 @@ This file contains references to all logged memories for debugging, implementati
 
 ### Implementation Decisions
 - [MRTMLY-003: SetupPhase TDD Implementation](logged_memories/MRTMLY-003-setupphase-tdd-implementation.md)
+- [MRTMLY-004: ActivityPhase Completion and Integration](logged_memories/MRTMLY-004-activityphase-completion-integration.md)
 
 ### Performance Optimizations
 
