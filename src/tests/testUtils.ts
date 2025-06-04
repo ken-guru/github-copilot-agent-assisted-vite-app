@@ -15,6 +15,7 @@ export const createMockActivity = (overrides: Partial<Activity> = {}): Activity 
   id: `activity-${Date.now()}-${Math.random()}`,
   name: 'Test Activity',
   description: 'Test activity description',
+  estimatedDuration: 15 * 60 * 1000, // 15 minutes default
   status: 'pending',
   color: '#3B82F6',
   ...overrides,
@@ -23,6 +24,7 @@ export const createMockActivity = (overrides: Partial<Activity> = {}): Activity 
 export const createMockSessionState = (overrides: Partial<SessionState> = {}): SessionState => ({
   phase: 'setup',
   activities: [],
+  selectedActivityId: undefined,
   ...overrides,
 })
 

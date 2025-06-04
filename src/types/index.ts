@@ -12,18 +12,29 @@ export interface Activity {
   id: string;
   name: string;
   description?: string;
+  estimatedDuration?: number; // milliseconds
   status: 'pending' | 'active' | 'completed';
   startTime?: Date;
   endTime?: Date;
   color: string;
 }
 
+export interface ActivityProgress {
+  activityId: string;
+  completed: boolean;
+  timeSpent: number; // milliseconds
+  startTime?: Date;
+  endTime?: Date;
+}
+
 export interface SessionState {
   phase: 'loading' | 'setup' | 'activity' | 'completed';
   timeConfig?: TimeConfig;
   activities: Activity[];
+  activityProgress?: ActivityProgress[];
   sessionStartTime?: Date;
-  activeActivityId?: string;
+  activeActivityId?: string | null;
+  selectedActivityId?: string;
 }
 
 export interface ThemePreference {

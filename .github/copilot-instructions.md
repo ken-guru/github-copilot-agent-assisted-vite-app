@@ -36,7 +36,9 @@ You are working on Mr. Timely, a comprehensive time management and activity trac
 
 ### Test Verification
 - Remind to run test suite after ANY code changes
-- Syntax: `npm test`
+- For automated/CI environments or when tests must exit automatically: `npm test -- --run`
+- For development/watch mode: `npm test`
+- ALWAYS use `--run` flag when running tests in terminal to ensure proper exit
 
 ## DOCUMENTATION STANDARDS [PRIORITY: HIGH]
 
@@ -134,9 +136,9 @@ You are working on Mr. Timely, a comprehensive time management and activity trac
   ```bash
   npm run lint
   ```
-- Tests:
+- Tests (with automatic exit):
   ```bash
-  npm test
+  npm test -- --run
   ```
 
 ### Verification Process
@@ -239,7 +241,7 @@ Before marking any work as complete:
    - [ ] All new functionality has tests written first
    - [ ] All existing tests still pass
    - [ ] Edge cases are covered
-   - [ ] Run `npm test` successfully
+   - [ ] Run `npm test -- --run` successfully
 
 2. **Code Quality** 
    - [ ] TypeScript compilation passes (`npm run type-check`)

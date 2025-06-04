@@ -1,0 +1,284 @@
+/* ActivityPhase Component Styles */
+.activity-phase {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.activity-phase h1 {
+  color: var(--text-primary, #333);
+  margin-bottom: 0.5rem;
+}
+
+.activity-phase h2 {
+  color: var(--text-secondary, #666);
+  font-size: 1.2rem;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.activity-phase section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 8px;
+  background: var(--background-secondary, #fafafa);
+}
+
+/* Error states */
+.activity-phase.error {
+  text-align: center;
+  color: var(--error-color, #d32f2f);
+}
+
+/* Progress bar styles */
+.activity-phase [role="progressbar"] {
+  width: 100%;
+  height: 24px;
+  border-radius: 12px;
+  position: relative;
+  background: var(--background-tertiary, #f0f0f0);
+  overflow: hidden;
+}
+
+.progress-green {
+  background-color: #4caf50;
+}
+
+.progress-yellow {
+  background-color: #ff9800;
+}
+
+.progress-orange {
+  background-color: #f57c00;
+}
+
+.progress-red {
+  background-color: #f44336;
+}
+
+/* Timeline styles */
+[data-testid="activity-timeline"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+[data-testid*="timeline-"] {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 4px;
+  background: var(--background-primary, white);
+  position: relative;
+}
+
+[data-testid*="timeline-"].completed {
+  background: var(--success-background, #e8f5e8);
+  border-color: var(--success-color, #4caf50);
+}
+
+[data-testid*="timeline-"].current {
+  background: var(--primary-background, #e3f2fd);
+  border-color: var(--primary-color, #007acc);
+  border-width: 2px;
+}
+
+/* Activity progress within timeline */
+[data-testid*="-progress"] {
+  height: 4px;
+  background: var(--primary-color, #007acc);
+  border-radius: 2px;
+  margin-top: 0.25rem;
+  transition: width 0.3s ease;
+}
+
+/* Activity timeline styles */
+.activity-phase [data-testid="activity-timeline"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.timeline-activity {
+  position: relative;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  font-weight: 500;
+}
+
+.timeline-activity:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-activity:focus {
+  outline: 2px solid var(--focus-color, #2196f3);
+  outline-offset: 2px;
+}
+
+.timeline-activity.selected {
+  border-color: var(--accent-color, #2196f3);
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+}
+
+.timeline-activity.current {
+  border-color: var(--success-color, #4caf50);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+}
+
+.timeline-activity.completed {
+  opacity: 0.7;
+  border-color: var(--completed-color, #9e9e9e);
+}
+
+.activity-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: width 0.3s ease;
+}
+
+.current-indicator,
+.completed-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.completed-indicator {
+  background: var(--success-color, #4caf50);
+  color: white;
+}
+
+/* Activity controls */
+.activity-controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.activity-controls button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary-color, #2196f3);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.activity-controls button:hover {
+  background: var(--primary-dark, #1976d2);
+  transform: translateY(-1px);
+}
+
+.activity-controls button:focus {
+  outline: 2px solid var(--focus-color, #2196f3);
+  outline-offset: 2px;
+}
+
+.activity-controls button:disabled {
+  background: var(--disabled-color, #bdbdbd);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Activity switcher */
+.activity-switcher {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+.activity-switcher h3 {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary, #666);
+  font-size: 1rem;
+}
+
+.activity-switcher button {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 4px;
+  background: var(--background-primary, white);
+  color: var(--text-primary, #333);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.activity-switcher button:hover:not(:disabled) {
+  background: var(--background-hover, #f5f5f5);
+  border-color: var(--primary-color, #2196f3);
+}
+
+.activity-switcher button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Accessibility helpers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Theme compatibility */
+@media (prefers-color-scheme: dark) {
+  .activity-phase {
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --background-primary: #1e1e1e;
+    --background-secondary: #2d2d2d;
+    --background-tertiary: #3d3d3d;
+    --border-color: #404040;
+    --primary-color: #0078d4;
+    --primary-color-hover: #106ebe;
+    --error-color: #ff6b6b;
+    --success-color: #51c878;
+    --success-background: #1e3a1e;
+    --primary-background: #1e2a3a;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .activity-phase {
+    padding: 1rem;
+  }
+  
+  .activity-controls {
+    flex-direction: column;
+  }
+  
+  .activity-controls button {
+    width: 100%;
+  }
+}
