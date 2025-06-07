@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import type { SessionState, ActivityProgress } from '../types'
 import './ActivityPhase.css'
 
@@ -46,11 +46,11 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
     return Math.min(100, (sessionElapsed / totalTime) * 100)
   }
 
-  const getActivityProgress = (activityId: string) => {
+  const getActivityProgress = useCallback((activityId: string) => {
     return sessionState.activityProgress?.find(p => p.activityId === activityId)
-  }
+  }, [sessionState.activityProgress])
 
-  const updateActivityProgress = (activityId: string, updates: Partial<ActivityProgress>) => {
+  const updateActivityProgress = useCallback((activityId: string, updates: Partial<ActivityProgress>) => {
     const currentProgress = sessionState.activityProgress || []
     const existingProgress = currentProgress.find(p => p.activityId === activityId)
     
@@ -75,7 +75,7 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
     
     onStateChange(updatedState)
     return updatedState
-  }
+  }, [sessionState, onStateChange])
 
   const getProgressColor = (progress: number): string => {
     if (progress < 50) return 'progress-green'
@@ -84,14 +84,14 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
     return 'progress-red'
   }
 
-  const getCurrentActivity = () => {
+  const getCurrentActivity = useCallback(() => {
     return sessionState.activities.find(a => a.id === currentActivityId)
-  }
+  }, [sessionState.activities, currentActivityId])
 
 
 
   // Timer management
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     if (intervalRef.current) return
     
     startTimeRef.current = Date.now() - timeElapsed * 1000
@@ -106,14 +106,14 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
         })
       }
     }, 1000)
-  }
+  }, [timeElapsed, currentActivityId, updateActivityProgress])
 
-  const stopTimer = () => {
+  const stopTimer = useCallback(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
       intervalRef.current = null
     }
-  }
+  }, [])
 
   // Activity actions
   const selectActivity = (activityId: string) => {
@@ -127,7 +127,7 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
     }
   }
 
-  const startActivity = () => {
+  const startActivity = useCallback(() => {
     if (!selectedActivityId) return
     
     // Stop current activity if running
@@ -150,9 +150,9 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
     if (activity) {
       setAnnouncements(`Started activity: ${activity.name}`)
     }
-  }
+  }, [selectedActivityId, isActive, stopTimer, startTimer, onStateChange, sessionState, setAnnouncements])
 
-  const pauseActivity = () => {
+  const pauseActivity = useCallback(() => {
     setIsActive(false)
     stopTimer()
     setAnnouncements('Activity paused')
@@ -162,9 +162,9 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
       ...sessionState,
       activeActivityId: null
     })
-  }
+  }, [stopTimer, setAnnouncements, onStateChange, sessionState])
 
-  const resumeActivity = () => {
+  const resumeActivity = useCallback(() => {
     setIsActive(true)
     startTimer()
     setAnnouncements('Activity resumed')
@@ -176,9 +176,9 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
         activeActivityId: currentActivityId
       })
     }
-  }
+  }, [startTimer, setAnnouncements, currentActivityId, onStateChange, sessionState])
 
-  const completeActivity = () => {
+  const completeActivity = useCallback(() => {
     if (!currentActivityId) return
     
     stopTimer()
@@ -217,7 +217,7 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
       selectedActivityId: undefined
     })
     setTimeElapsed(0)
-  }
+  }, [currentActivityId, stopTimer, timeElapsed, updateActivityProgress, getCurrentActivity, setAnnouncements, sessionState, onComplete, onStateChange])
 
   const switchActivity = (newActivityId: string) => {
     if (currentActivityId && isActive) {
@@ -258,7 +258,7 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
         setTimeElapsed(elapsed)
       }
     }
-  }, [sessionState.activeActivityId])
+  }, [sessionState.activeActivityId, currentActivityId, getActivityProgress])
 
   // Start timer when current activity changes and is active
   useEffect(() => {
@@ -267,7 +267,7 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
     } else if (!currentActivityId || !isActive) {
       stopTimer()
     }
-  }, [currentActivityId, isActive])
+  }, [currentActivityId, isActive, startTimer, stopTimer])
 
   // Cleanup effect
   useEffect(() => {
@@ -288,7 +288,7 @@ export function ActivityPhase({ sessionState, onStateChange, onComplete }: Activ
       setIsActive(false)
       onComplete(sessionState)
     }
-  }, [sessionElapsed, sessionState, onComplete])
+  }, [sessionElapsed, sessionState, onComplete, stopTimer])
 
   // Keyboard shortcuts
   useEffect(() => {
